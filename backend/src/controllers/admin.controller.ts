@@ -157,7 +157,10 @@ export async function orders(_req: Request, res: Response) {
   });
 }
 
-export async function updateOrder(req: Request, res: Response) {
+export async function updateOrder(
+  req: Request<{ id: string }>,
+  res: Response
+) {
   const { status } = orderStatusSchema.parse(req.body);
 
   const order = await prisma.$transaction(async (tx) => {
@@ -299,7 +302,10 @@ export async function createProduct(req: Request, res: Response) {
   }
 }
 
-export async function updateProduct(req: Request, res: Response) {
+export async function updateProduct(
+  req: Request<{ id: string }>,
+  res: Response
+) {
   try {
     const data = productSchema.partial().parse(req.body);
 
@@ -352,7 +358,10 @@ export async function updateProduct(req: Request, res: Response) {
   }
 }
 
-export async function updateStock(req: Request, res: Response) {
+export async function updateStock(
+  req: Request<{ id: string }>,
+  res: Response
+) {
   const { stock } = stockSchema.parse(req.body);
 
   const product = await prisma.product.update({
@@ -373,7 +382,10 @@ export async function updateStock(req: Request, res: Response) {
   });
 }
 
-export async function deleteProduct(req: Request, res: Response) {
+export async function deleteProduct(
+  req: Request<{ id: string }>,
+  res: Response
+) {
   await prisma.product.update({
     where: {
       id: req.params.id,

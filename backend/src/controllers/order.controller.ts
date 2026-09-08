@@ -16,7 +16,10 @@ const serializeOrder = (o:any) => ({
 export async function place(req: any, res: Response) { try { const order = await createOrder(req.body, req.user?.id); const full=await prisma.order.findUnique({where:{id:order.id},include:{items:{include:{product:{include:{category:true}}}}}}); if (full) { void sendSms(full.customerPhone, `فروشگاه لوکس: سفارش ${full.orderNumber} با مبلغ ${full.totalAmount.toLocaleString('fa-IR')} تومان ثبت شد.`); void notifyStore(`سفارش جدید ${full.orderNumber} برای ${full.customerName}`); } res.status(201).json({ success:true, order:serializeOrder(full) }); } catch (e:any) { if (e.message?.startsWith('OUT_OF_STOCK:')) { const [,title,available]=e.message.split(':'); return res.status(409).json({success:false,code:'OUT_OF_STOCK',message:`موجودی «${title}» کافی نیست. موجودی فعلی: ${available}.`,availableStock:Number(available)}); } if(e.message==='PRODUCT_NOT_FOUND')return res.status(404).json({success:false,message:'یکی از محصولات یافت نشد.'}); throw e; } }
 export async function mine(req:any,res:Response){const orders=await prisma.order.findMany({where:{userId:req.user.id},include:{items:{include:{product:{include:{category:true}}}}},orderBy:{createdAt:'desc'}});res.json({success:true,orders:orders.map(serializeOrder)});}
 export async function all(req:any,res:Response){if(req.user?.role==='ADMIN'){const orders=await prisma.order.findMany({include:{items:{include:{product:{include:{category:true}}}}},orderBy:{createdAt:'desc'}});return res.json({success:true,orders:orders.map(serializeOrder)});} if(req.user)return mine(req,res); return res.status(401).json({success:false,message:'ورود الزامی است.'});}
-export async function track(req: Request, res: Response) {
+export async function track(
+  req: Request<{ query: string }>,
+  res: Response
+) {
   const raw = decodeURIComponent(req.params.query)
     .trim()
     .replace(/^#/, '');

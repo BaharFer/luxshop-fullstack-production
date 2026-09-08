@@ -89,6 +89,7 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function register(req: Request, res: Response) {
+  
   const data = registerSchema.parse(req.body);
 
   const exists = await prisma.user.findFirst({
@@ -174,7 +175,23 @@ export async function registerAdmin(req: Request, res: Response) {
       message: 'ثبت‌نام مدیر مجاز نیست.',
     });
   }
+  
+  const existingAdmin = await prisma.user.findFirst({
+  where: {
+    role: 'ADMIN',
+  },
+  select: {
+    id: true,
+  },
+});
 
+if (existingAdmin) {
+  return res.status(403).json({
+    success: false,
+    message: 'ثبت‌نام مدیر قبلاً انجام شده است.',
+  });
+}
+  
   const data = registerSchema.parse(req.body);
 
   const exists = await prisma.user.findFirst({
