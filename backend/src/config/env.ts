@@ -21,7 +21,9 @@ export const env = {
 
   cookieName: process.env.AUTH_COOKIE_NAME ?? 'luxshop_session',
 
-  cookieSecure: process.env.AUTH_COOKIE_SECURE === 'true',
+  cookieSecure:
+  process.env.AUTH_COOKIE_SECURE === 'true' ||
+  process.env.NODE_ENV === 'production',
 
   corsOrigins: Array.from(
     new Set([
