@@ -7,16 +7,12 @@ import {
   OrderStatus,
 } from '../types';
 
-const RENDER_API =
-  'https://luxshop-fullstack-production.onrender.com/api';
-
 const API_BASE =
   typeof window !== 'undefined' &&
   ['localhost', '127.0.0.1'].includes(window.location.hostname) &&
   window.location.port === '5173'
     ? 'http://localhost:3000/api'
-    : RENDER_API;
-    
+    : '/api';  
 const request = async <T = any>(
   path: string,
   init: RequestInit = {}
