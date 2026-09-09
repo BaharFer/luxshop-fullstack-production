@@ -18,7 +18,9 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@cloudflare/vite-plugin": "^1.54.6",
     "@google/genai": "^2.4.0",
+    "@prisma/adapter-pg": "^6.19.3",
     "@prisma/client": "^6.16.2",
     "@tailwindcss/vite": "^4.1.14",
     "bcryptjs": "^3.0.2",
@@ -32,8 +34,10 @@
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
     "multer": "^2.3.0",
+    "pg": "^8.23.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
+    "wrangler": "^4.130.0",
     "zod": "^4.1.5"
   },
   "devDependencies": {
@@ -43,6 +47,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^2.2.0",
     "@types/node": "^22.14.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^5.0.4",

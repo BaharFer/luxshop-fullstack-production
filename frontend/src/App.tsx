@@ -444,67 +444,43 @@ export function App() {
       />
 
       {/* Main Views Container with Smooth Transitions */}
-      <main className="flex-grow">
-        {/* Global Loading / Error Banner for API */}
-        {isLoadingStore && products.length === 0 && (
-          <div className="py-24 text-center space-y-4">
-            <div className="w-12 h-12 border-4 border-[#2F6B5B] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-sm font-bold text-[#6B756F]">در حال دریافت زنده کاتالوگ محصولات از سرور Express...</p>
-          </div>
-        )}
-
-        {storeError && products.length === 0 && !isLoadingStore && (
-          <div className="max-w-md mx-auto my-16 p-6 bg-white rounded-3xl border border-red-200 text-center space-y-4 shadow-sm">
-            <AlertTriangle className="w-10 h-10 text-red-500 mx-auto" />
-            <h3 className="text-lg font-bold text-[#171A19]">عدم برقراری ارتباط با API سرور</h3>
-            <p className="text-xs text-[#6B756F]">{storeError}</p>
-            <button
-              onClick={fetchStoreData}
-              className="inline-flex items-center gap-2 bg-[#2F6B5B] text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-[#8BC9A5] hover:text-[#171A19] transition-colors"
-            >
-              <RefreshCw className="w-4 h-4" />
-              تلاش مجدد برای دریافت داده‌ها
-            </button>
-          </div>
-        )}
-
-        {(!isLoadingStore || products.length > 0) && (
-          <Suspense
-            fallback={
-              <div className="py-24 text-center">
-                <div className="w-10 h-10 border-4 border-[#2F6B5B] border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="mt-4 text-sm font-bold text-[#6B756F]">
-                  در حال بارگذاری صفحه...
-                </p>
-              </div>
+<main className="flex-grow">
+  <Suspense
+    fallback={
+      <div className="py-24 text-center">
+        <div className="w-10 h-10 border-4 border-[#2F6B5B] border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="mt-4 text-sm font-bold text-[#6B756F]">
+          در حال بارگذاری صفحه...
+        </p>
+      </div>
+    }
+  >
+    <AnimatePresence mode="wait">
+      {activePage === 'home' && (
+        <motion.div
+          key="home"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2 }}
+        >
+          <HomeView
+            categories={categories}
+            products={products}
+            wishlistIds={wishlistIds}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            onSelectProduct={handleSelectProduct}
+            onSelectCategory={(slug) => {
+              scrollToSection('categories-section');
+            }}
+            onOpenVideoModal={(title, poster) =>
+              setVideoModalData({ isOpen: true, title, poster })
             }
-          >
-            <AnimatePresence mode="wait">
-            {activePage === 'home' && (
-              <motion.div
-                key="home"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-              >
-                <HomeView
-                  categories={categories}
-                  products={products}
-                  wishlistIds={wishlistIds}
-                  onToggleWishlist={handleToggleWishlist}
-                  onAddToCart={handleAddToCart}
-                  onSelectProduct={handleSelectProduct}
-                  onSelectCategory={(slug) => {
-                    scrollToSection('categories-section');
-                  }}
-                  onOpenVideoModal={(title, poster) =>
-                    setVideoModalData({ isOpen: true, title, poster })
-                  }
-                  onShowToast={addToast}
-                />
-              </motion.div>
-            )}
+            onShowToast={addToast}
+          />
+        </motion.div>
+      )}
 
             {activePage === 'product-detail' && selectedProduct && (
               <motion.div
@@ -734,7 +710,6 @@ export function App() {
             )}
             </AnimatePresence>
           </Suspense>
-        )}
       </main>
 
       {/* Global Footer */}

@@ -298,11 +298,13 @@ const heroImage = '/assets/products/screen-removebg-preview.webp';
                   <span>حذف نویز فعال ANC</span>
                 </div>
 
-                <img
+   <img
   src={heroImage}
   alt={heroProduct.title}
   referrerPolicy="no-referrer"
-  className="w-[125%] sm:w-[130%] md:w-[135%] lg:w-[125%] max-w-none h-auto object-contain filter drop-shadow-2xl z-10 relative transform scale-100 group-hover:scale-[1.08] group-hover:-translate-y-3 transition-all duration-700 ease-out"
+  loading="eager"
+  fetchPriority="high"
+  className="w-[125%] sm:w-[130%] md:w-[135%] lg:w-[125%] max-w-none aspect-square h-auto object-contain filter drop-shadow-2xl z-10 relative transform scale-100 group-hover:scale-[1.08] group-hover:-translate-y-3 transition-all duration-700 ease-out"
 />
 
                 {/* Floating Price Badge */}
