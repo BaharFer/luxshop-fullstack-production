@@ -197,7 +197,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   : 'text-[#6B756F]'
               }`}
             >
-              Store Manager
+              مدیر فروشگاه
             </button>
           </div>
 

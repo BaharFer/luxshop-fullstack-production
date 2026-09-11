@@ -88,7 +88,7 @@ export const AdminAuthView: React.FC<Props> = ({
           </div>
 
           <h1 className="text-2xl font-black">
-            Store Manager
+            مدیر فروشگاه
           </h1>
 
           <p className="text-xs text-[#6B756F] mt-2">

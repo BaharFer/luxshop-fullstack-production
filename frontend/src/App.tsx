@@ -100,25 +100,42 @@ export function App() {
   });
 
   const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
-    try {
-      const saved = localStorage.getItem('luxshop_wishlist');
-      return saved ? JSON.parse(saved) : ['headphone-pro', 'smartwatch-x1'];
-    } catch {
+  try {
+    const saved = localStorage.getItem('luxshop_wishlist');
+
+    if (!saved) {
       return [];
     }
-  });
 
-  // Modal & Popup States
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [videoModalData, setVideoModalData] = useState<{
-    isOpen: boolean;
-    title: string;
-    poster: string;
-  }>({
-    isOpen: false,
-    title: '',
-    poster: '',
-  });
+    const parsed = JSON.parse(saved);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    const legacyDefaults = ['headphone-pro', 'smartwatch-x1'];
+
+    const isOnlyLegacyDefaults =
+      parsed.length === legacyDefaults.length &&
+      parsed.every((id) => legacyDefaults.includes(id));
+
+    return isOnlyLegacyDefaults ? [] : parsed;
+  } catch {
+    return [];
+  }
+});
+
+// Modal & Popup States
+const [isSearchOpen, setIsSearchOpen] = useState(false);
+const [videoModalData, setVideoModalData] = useState<{
+  isOpen: boolean;
+  title: string;
+  poster: string;
+}>({
+  isOpen: false,
+  title: '',
+  poster: '',
+});
 
   // Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
