@@ -10,11 +10,8 @@ import { Product, Category, CartItem, Order, OrderStatus, ActivePage, User } fro
 import { api } from './services/api';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-const HomeView = lazy(() =>
-  import('./components/HomeView').then((module) => ({
-    default: module.HomeView,
-  }))
-);
+import { HomeView } from './components/HomeView';
+
 
 const ProductDetailView = lazy(() =>
   import('./components/ProductDetailView').then((module) => ({
